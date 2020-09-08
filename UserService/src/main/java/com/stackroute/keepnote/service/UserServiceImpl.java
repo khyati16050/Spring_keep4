@@ -3,6 +3,13 @@ package com.stackroute.keepnote.service;
 import com.stackroute.keepnote.exceptions.UserAlreadyExistsException;
 import com.stackroute.keepnote.exceptions.UserNotFoundException;
 import com.stackroute.keepnote.model.User;
+import com.stackroute.keepnote.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Optional;
 
 /*
 * Service classes are used here to implement additional business logic/validation 
@@ -13,7 +20,7 @@ import com.stackroute.keepnote.model.User;
 * better. Additionally, tool support and additional behavior might rely on it in the 
 * future.
 * */
-
+@Service
 public class UserServiceImpl implements UserService {
 
 	/*
@@ -26,10 +33,25 @@ public class UserServiceImpl implements UserService {
 	 * This method should be used to save a new user.Call the corresponding method
 	 * of Respository interface.
 	 */
-
+	private UserRepository userRepository;
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository)
+	{
+		this.userRepository = userRepository;
+	}
+	@Override
 	public User registerUser(User user) throws UserAlreadyExistsException {
+		Optional<User> optional =  userRepository.findById(user.getUserId());
+		User newUser = userRepository.insert(user);
+		if(newUser==null)
+		{
+			throw new UserAlreadyExistsException("User Already Exists");
+		}
+		else
+		{
+			return newUser;
+		}
 
-		return null;
 	}
 
 	/*
@@ -38,8 +60,31 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	public User updateUser(String userId,User user) throws UserNotFoundException {
+		Optional<User> optional =  userRepository.findById(user.getUserId());
+		if(optional.isPresent())
+		{
+			String id = user.getUserId();
+			String name = user.getUserName();
+			String password = user.getUserPassword();
+			String mobile = user.getUserMobile();
+			Date date = user.getUserAddDate();
+			User newUser = new User();
+			newUser.setUserId(userId);
+			newUser.setUserName(name);
+			newUser.setUserPassword(password);
+			newUser.setUserMobile(mobile);
+			newUser.setUserAddedDate(date);
 
-		return null;
+			userRepository.save(newUser);
+
+			return user;
+		}
+		else
+		{
+			throw new UserNotFoundException("User not found");
+		}
+
+
 	}
 
 	/*
@@ -48,8 +93,19 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	public boolean deleteUser(String userId) throws UserNotFoundException {
-
-		return false;
+		boolean flag = true;
+//
+		Optional<User> optional = userRepository.findById(userId);
+		if(optional.isPresent())
+		{
+			userRepository.deleteById(userId);
+			flag = true;
+		}
+		else
+		{
+			throw new UserNotFoundException("User not found");
+		}
+		return flag;
 	}
 
 	/*
@@ -58,8 +114,17 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	public User getUserById(String userId) throws UserNotFoundException {
+		Optional<User> optional = userRepository.findById(userId);
+		if(optional.isPresent())
+		{
+			User user = optional.get();
+			return user;
+		}
+		else
+		{
+			throw new UserNotFoundException("User not found");
+		}
 
-		return null;
 	}
 
 }

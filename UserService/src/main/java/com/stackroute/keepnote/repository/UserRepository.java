@@ -11,4 +11,5 @@ import com.stackroute.keepnote.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
+
 }

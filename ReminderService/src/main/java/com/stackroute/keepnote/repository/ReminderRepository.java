@@ -4,6 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.stackroute.keepnote.model.Reminder;
 
+import java.util.List;
+
 /*
 * This class is implementing the MongoRepository interface for User.
 * Annotate this class with @Repository annotation

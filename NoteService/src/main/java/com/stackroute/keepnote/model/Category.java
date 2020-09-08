@@ -13,44 +13,64 @@ public class Category {
 	 * always initialized with the system date.
 	 */
 
-    public String getCategoryId() {
-        return null;
+    private String categoryId;
+    private String categpryName;
+    private String categoryDescription;
+    private String categoryCreatedBy;
+    private Date categoryCreationDate;
+
+    public Category(){
+
+    }
+    public Category(String id,String name,String des,String created, Date date)
+    {
+        this.categoryId = id;
+        this.categpryName = name;
+        this.categoryDescription = des;
+        this.categoryCreatedBy = created;
+        this.categoryCreationDate = date;
     }
 
-    public void setCategoryId(String categoryId) {
-       
+    public String getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(String id) {
+        this.categoryId = id;
+
     }
 
     public String getCategoryName() {
-        return null;
+        return this.categpryName;
     }
 
     public void setCategoryName(String categoryName) {
-        
+        this.categpryName = categoryName;
+
     }
 
     public String getCategoryDescription() {
-        return null;
+        return this.categoryDescription;
     }
 
     public void setCategoryDescription(String categoryDescription) {
-      
+        this.categoryDescription = categoryDescription;
     }
 
     public String getCategoryCreatedBy() {
-        return null;
+        return this.categoryCreatedBy;
     }
 
     public void setCategoryCreatedBy(String categoryCreatedBy) {
-       
+        this.categoryCreatedBy = categoryCreatedBy;
     }
 
     public Date getCategoryCreationDate() {
-        return null;
+        return this.categoryCreationDate;
     }
 
     public void setCategoryCreationDate(Date categoryCreationDate) {
-      
-    }
+        this.categoryCreationDate  = categoryCreationDate;
 
+    }
 }
